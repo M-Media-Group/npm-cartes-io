@@ -24,17 +24,17 @@ import cartes from "npm-cartes-io";
 // Maps
 cartes.maps().get();
 cartes.maps(mapId).get();
-cartes.maps(mapId, mapToken).update();
+cartes.maps().create(data);
+cartes.maps(mapId, mapToken).update(data);
 cartes.maps(mapId, mapToken).delete();
 
 // Markers
 cartes.maps(mapId).markers().get();
-cartes.maps(mapId).markers().create();
+cartes.maps(mapId).markers().create(data);
 cartes.maps(mapId).markers(markerId, markerToken).delete();
 
 // Categories
 cartes.categories().get();
-
 ```
 
 <!-- ## API -->
