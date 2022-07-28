@@ -1,4 +1,4 @@
-# my-package-name
+# npm-cartes-io
 
 [![npm package][npm-img]][https://www.npmjs.com/package/@m-media/npm-cartes-io]
 [![Build Status][build-img]][build-url]
