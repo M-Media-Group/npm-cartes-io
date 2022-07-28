@@ -79,7 +79,7 @@ export class cartes {
     this.#params = {};
 
     if (this.#token) {
-      this.#params.token = this.#token;
+      this.#params.map_token = this.#token;
     }
 
     if (this.#api_key) {
@@ -224,7 +224,7 @@ export class cartes {
     }
 
     if (token) {
-      this.#params.token = token;
+      this.#params.map_token = token;
     }
 
     return this;
