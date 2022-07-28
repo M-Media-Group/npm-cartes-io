@@ -1,6 +1,6 @@
 # my-package-name
 
-[![npm package][npm-img]][npm-url]
+[![npm package][npm-img]][https://www.npmjs.com/package/@m-media/npm-cartes-io]
 [![Build Status][build-img]][build-url]
 [![Downloads][downloads-img]][downloads-url]
 [![Issues][issues-img]][issues-url]
@@ -13,20 +13,32 @@
 ## Install
 
 ```bash
-npm install my-package-name
+npm i @m-media/npm-cartes-io
 ```
 
 ## Usage
 
 ```ts
-import { cartes } from 'my-package-name';
+import cartes from "npm-cartes-io";
 
-cartes('hello');
-//=> 'hello from my package'
+// Maps
+cartes.maps().get();
+cartes.maps(mapId).get();
+cartes.maps(mapId, mapToken).update();
+cartes.maps(mapId, mapToken).delete();
+
+// Markers
+cartes.maps(mapId).markers().get();
+cartes.maps(mapId).markers().create();
+cartes.maps(mapId).markers(markerId, markerToken).delete();
+
+// Categories
+cartes.categories().get();
+
 ```
 
-## API
-
+<!-- ## API -->
+<!--
 ### cartes(input, options?)
 
 #### input
@@ -44,14 +56,14 @@ Type: `object`
 Type: `string`
 Default: `rainbows`
 
-Lorem ipsum.
+Lorem ipsum. -->
 
 [build-img]:https://github.com/ryansonshine/typescript-npm-package-template/actions/workflows/release.yml/badge.svg
 [build-url]:https://github.com/ryansonshine/typescript-npm-package-template/actions/workflows/release.yml
 [downloads-img]:https://img.shields.io/npm/dt/typescript-npm-package-template
 [downloads-url]:https://www.npmtrends.com/typescript-npm-package-template
 [npm-img]:https://img.shields.io/npm/v/typescript-npm-package-template
-[npm-url]:https://www.npmjs.com/package/typescript-npm-package-template
+[https://www.npmjs.com/package/@m-media/npm-cartes-io]:https://www.npmjs.com/package/typescript-npm-package-template
 [issues-img]:https://img.shields.io/github/issues/ryansonshine/typescript-npm-package-template
 [issues-url]:https://github.com/ryansonshine/typescript-npm-package-template/issues
 [codecov-img]:https://codecov.io/gh/ryansonshine/typescript-npm-package-template/branch/main/graph/badge.svg
