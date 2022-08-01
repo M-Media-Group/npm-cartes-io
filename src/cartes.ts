@@ -198,9 +198,9 @@ export class cartes {
    * @public
    * @param {string} key
    * @param {*} value
-   * @returns {cartes}
+   * @returns {this}
    */
-  public addParam(key: string, value: string): cartes {
+  public addParam(key: string, value: string): this {
     this.#params[key] = value;
     return this;
   }
@@ -211,12 +211,12 @@ export class cartes {
    * @public
    * @param {(string | number)} [uuid=null as string | number | null]
    * @param {string} [token=null as string | null]
-   * @returns {cartes}
+   * @returns {this}
    */
   public maps(
     uuid = null as string | null,
     token = null as string | null
-  ): cartes {
+  ): this {
     if (uuid) {
       this.#request_url = this.#api_url + 'maps/' + uuid;
     } else {
@@ -235,9 +235,9 @@ export class cartes {
    *
    * @public
    * @param {(string | number)} [id=null as string | number | null]
-   * @returns {cartes}
+   * @returns {this}
    */
-  public categories(id = null as string | number | null): cartes {
+  public categories(id = null as string | number | null): this {
     if (id) {
       this.#request_url = this.#api_url + 'categories/' + id.toString();
     } else {
@@ -253,12 +253,12 @@ export class cartes {
    * @public
    * @param {(string | number)} [id=null as string | number | null]
    * @param {string} [token=null as string | null]
-   * @returns {cartes}
+   * @returns {this}
    */
   public markers(
     id = null as string | number | null,
     token = null as string | null
-  ): cartes {
+  ): this {
     if (id) {
       // Append to the url
       this.#request_url += '/markers/' + id.toString();
@@ -270,6 +270,17 @@ export class cartes {
       this.#params.token = token;
     }
 
+    return this;
+  }
+
+  /**
+   * Set the request to get related
+   *
+   * @public
+   * @returns {this}
+   */
+  public related(): this {
+    this.#request_url += '/related';
     return this;
   }
 

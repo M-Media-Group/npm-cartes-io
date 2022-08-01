@@ -24,6 +24,7 @@ import cartes from "npm-cartes-io";
 // Maps
 cartes.maps().get();
 cartes.maps(mapId).get();
+cartes.maps(mapId).related().get();
 cartes.maps().create(data);
 cartes.maps(mapId, mapToken).update(data);
 cartes.maps(mapId, mapToken).delete();
