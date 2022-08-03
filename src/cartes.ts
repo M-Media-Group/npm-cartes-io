@@ -158,7 +158,7 @@ export class cartes {
         return data;
       })
       .catch(error => {
-        console.error('Error:', error);
+        throw error;
       });
   }
 
