@@ -105,6 +105,10 @@ export class cartes {
     if (this.#api_key) {
       headers.append('Authorization', 'Bearer ' + this.#api_key);
     }
+    const csrfToken = this.getCsrfTokenFromCookie();
+    if (csrfToken && csrfToken !== '') {
+      headers.append('X-XSRF-TOKEN', csrfToken);
+    }
     return headers;
   }
 
@@ -129,6 +133,14 @@ export class cartes {
       }
       this.#request_url += '?' + params.substring(1);
     }
+  }
+
+  private getCsrfTokenFromCookie(): string {
+    const xsrfToken = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('XSRF-TOKEN'))
+      ?.split('=')[1];
+    return decodeURIComponent(xsrfToken ?? '').trim();
   }
 
   /**
