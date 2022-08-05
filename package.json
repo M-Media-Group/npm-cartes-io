@@ -1,7 +1,7 @@
 {
   "name": "@m-media/npm-cartes-io",
   "version": "0.0.7",
-  "description": "A template for creating npm packages using TypeScript and VSCode",
+  "description": "Official Cartes.io API client",
   "main": "./lib/src/index.js",
   "files": [
     "lib/**/*"
