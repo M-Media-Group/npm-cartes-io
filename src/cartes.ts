@@ -112,8 +112,27 @@ export class cartes {
     return headers;
   }
 
+  /**
+   * Set the base URL
+   *
+   * @public
+   * @param {string} url
+   * @returns {this}
+   */
   public setBaseUrl(url: string): this {
     this.#api_url = url;
+    return this;
+  }
+
+  /**
+   * Set an API key
+   *
+   * @public
+   * @param {string} key
+   * @returns {this}
+   */
+  public setApiKey(key: string): this {
+    this.#api_key = key;
     return this;
   }
 
@@ -135,6 +154,11 @@ export class cartes {
     }
   }
 
+  /**
+   * Get the CSRF token from the cookie
+   *
+   * @private
+   */
   private getCsrfTokenFromCookie(): string {
     const xsrfToken = document.cookie
       .split('; ')
@@ -288,6 +312,22 @@ export class cartes {
       this.#params.token = token;
     }
 
+    return this;
+  }
+
+  /**
+   * Set the request to me
+   *
+   * @public
+   * @returns {this}
+   */
+  public me(): this {
+    if (!this.#api_key) {
+      throw new Error(
+        'You must set an API key before you can get info about your account.'
+      );
+    }
+    this.#request_url = this.#api_url + 'user';
     return this;
   }
 

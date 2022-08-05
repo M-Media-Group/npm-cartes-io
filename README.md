@@ -23,19 +23,28 @@ import cartes from "npm-cartes-io";
 
 // Maps
 cartes.maps().get();
-cartes.maps(mapId).get();
-cartes.maps(mapId).related().get();
-cartes.maps().create(data);
-cartes.maps(mapId, mapToken).update(data);
-cartes.maps(mapId, mapToken).delete();
+
+const map = cartes.maps().create(data);
+
+cartes.maps(map.uuid).get();
+cartes.maps(map.uuid).related().get();
+cartes.maps(map.uuid, map.token).update(data);
+cartes.maps(map.uuid, map.token).delete();
 
 // Markers
-cartes.maps(mapId).markers().get();
-cartes.maps(mapId).markers().create(data);
-cartes.maps(mapId).markers(markerId, markerToken).delete();
+cartes.maps(map.uuid).markers().get();
+
+const marker = cartes.maps(map.uuid).markers().create(data);
+
+cartes.maps(map.uuid).markers(marker.id, marker.token).delete();
 
 // Categories
 cartes.categories().get();
+
+// User
+cartes.setApiKey(apiKey);
+cartes.me().get();
+
 ```
 
 <!-- ## API -->
@@ -64,7 +73,7 @@ Lorem ipsum. -->
 [downloads-img]:https://img.shields.io/npm/dt/typescript-npm-package-template
 [downloads-url]:https://www.npmtrends.com/typescript-npm-package-template
 [npm-img]:https://img.shields.io/npm/v/typescript-npm-package-template
-[https://www.npmjs.com/package/@m-media/npm-cartes-io]:https://www.npmjs.com/package/typescript-npm-package-template
+[https://www.npmjs.com/package/@m-media/npm-cartes-io]:https://www.npmjs.com/package/@m-media/npm-cartes-io
 [issues-img]:https://img.shields.io/github/issues/ryansonshine/typescript-npm-package-template
 [issues-url]:https://github.com/ryansonshine/typescript-npm-package-template/issues
 [codecov-img]:https://codecov.io/gh/ryansonshine/typescript-npm-package-template/branch/main/graph/badge.svg
