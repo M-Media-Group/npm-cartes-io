@@ -322,11 +322,6 @@ export class cartes {
    * @returns {this}
    */
   public me(): this {
-    if (!this.#api_key) {
-      throw new Error(
-        'You must set an API key before you can get info about your account.'
-      );
-    }
     this.#request_url = this.#api_url + 'user';
     return this;
   }
