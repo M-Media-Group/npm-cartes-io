@@ -108,6 +108,11 @@ export class cartes {
     return headers;
   }
 
+  public setBaseUrl(url: string): this {
+    this.#api_url = url;
+    return this;
+  }
+
   /**
    * Attach the params to the url
    *
@@ -140,6 +145,7 @@ export class cartes {
     const data = {
       method: method.toUpperCase(),
       headers: this.getHeaders(),
+      credentials: 'include',
     } as RequestInit;
 
     // If the method is not GET, we need to add the body
