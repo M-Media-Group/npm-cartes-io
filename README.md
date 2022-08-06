@@ -45,6 +45,10 @@ cartes.categories().get();
 cartes.setApiKey(apiKey);
 cartes.me().get();
 
+// Users
+cartes.users().get();
+cartes.users(userId).get();
+
 ```
 
 <!-- ## API -->
