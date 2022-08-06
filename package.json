@@ -1,6 +1,6 @@
 {
   "name": "@m-media/npm-cartes-io",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Official Cartes.io API client",
   "main": "./lib/src/index.js",
   "files": [

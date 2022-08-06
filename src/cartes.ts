@@ -290,6 +290,23 @@ export class cartes {
   }
 
   /**
+   * Set the request to categories
+   *
+   * @public
+   * @param {(string | number)} [username=null as string | number | null]
+   * @returns {this}
+   */
+  public users(username = null as string | number | null): this {
+    if (username) {
+      this.#request_url = this.#api_url + 'users/' + username.toString();
+    } else {
+      this.#request_url = this.#api_url + 'users';
+    }
+
+    return this;
+  }
+
+  /**
    * Set the request to markers
    *
    * @public
