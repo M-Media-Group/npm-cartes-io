@@ -44,6 +44,7 @@ cartes.categories().get();
 // User
 cartes.setApiKey(apiKey);
 cartes.me().get();
+cartes.me().update(data);
 
 // Users
 cartes.users().get();

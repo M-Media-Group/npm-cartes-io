@@ -235,6 +235,26 @@ export class cartes {
   }
 
   /**
+   * Seth the current request url to the given resource
+   *
+   * @public
+   * @param {string} resource
+   * @param {null | string | number} id
+   * @returns {this}
+   */
+  private setUrlForResource(
+    resource: string,
+    id = null as null | string | number
+  ) {
+    if (id) {
+      this.#request_url = this.#api_url + resource + '/' + id.toString();
+    } else {
+      this.#request_url = this.#api_url + resource;
+    }
+    return this;
+  }
+
+  /**
    * Add a parameter to the request
    *
    * @public
@@ -259,11 +279,7 @@ export class cartes {
     uuid = null as string | null,
     token = null as string | null
   ): this {
-    if (uuid) {
-      this.#request_url = this.#api_url + 'maps/' + uuid;
-    } else {
-      this.#request_url = this.#api_url + 'maps';
-    }
+    this.setUrlForResource('maps', uuid);
 
     if (token) {
       this.#params.map_token = token;
@@ -280,12 +296,7 @@ export class cartes {
    * @returns {this}
    */
   public categories(id = null as string | number | null): this {
-    if (id) {
-      this.#request_url = this.#api_url + 'categories/' + id.toString();
-    } else {
-      this.#request_url = this.#api_url + 'categories';
-    }
-
+    this.setUrlForResource('categories', id);
     return this;
   }
 
@@ -297,12 +308,7 @@ export class cartes {
    * @returns {this}
    */
   public users(username = null as string | number | null): this {
-    if (username) {
-      this.#request_url = this.#api_url + 'users/' + username.toString();
-    } else {
-      this.#request_url = this.#api_url + 'users';
-    }
-
+    this.setUrlForResource('users', username);
     return this;
   }
 
@@ -339,7 +345,7 @@ export class cartes {
    * @returns {this}
    */
   public me(): this {
-    this.#request_url = this.#api_url + 'user';
+    this.setUrlForResource('user');
     return this;
   }
 
