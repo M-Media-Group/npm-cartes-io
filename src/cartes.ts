@@ -400,7 +400,7 @@ export class cartes {
    * @param {Record<string, any>} data
    * @returns {Promise<any>}
    */
-  public create(data: Record<string, any>): Promise<any> {
+  public create(data: null | Record<string, any>): Promise<any> {
     return this.handleRequest('POST', data);
   }
 
