@@ -155,6 +155,16 @@ export class cartes {
   }
 
   /**
+   * Reset the params
+   *
+   * @private
+   */
+  private resetParams(): this {
+    this.#params = {};
+    return this;
+  }
+
+  /**
    * Get the CSRF token from the cookie
    *
    * @private
@@ -175,9 +185,10 @@ export class cartes {
    * @param {*} [body=null as any]
    * @returns {Promise<any>}
    */
-  private handleRequest(method = 'GET', body = null as any): Promise<any> {
-    this.attachParamsToUrl();
-
+  private handleRequest(
+    method = 'GET',
+    body = null as null | Record<string, any>
+  ): Promise<any> {
     const data = {
       method: method.toUpperCase(),
       headers: this.getHeaders(),
@@ -185,9 +196,17 @@ export class cartes {
     } as RequestInit;
 
     // If the method is not GET, we need to add the body
-    if (data.method !== 'GET') {
+    if (data.method !== 'GET' && body) {
       data.body = JSON.stringify(body);
+    } else if (body) {
+      // set #params for GET requests for each body key
+      for (const key in body) {
+        this.#params[key] = body[key];
+      }
     }
+
+    this.attachParamsToUrl();
+    this.resetParams();
 
     return fetch(this.#request_url, data)
       .then(response => {
@@ -222,13 +241,17 @@ export class cartes {
       case 403:
         throw new Error('You are not authorized to do this action.');
       case 404:
-        throw new Error('Map not found.');
+        throw new Error('Resource not found.');
       case 429:
         throw new Error(
           'You have reached the maximum number of requests per minute. Please wait a minute before trying again.'
         );
       case 500:
         throw new Error('Internal server error.');
+      case 503:
+        throw new Error(
+          'Cartes.io is down for maintenance and will be back soon.'
+        );
       default:
         throw new Error('Unknown error.');
     }
@@ -374,10 +397,10 @@ export class cartes {
    * Call POST on the request
    *
    * @public
-   * @param {*} data
+   * @param {Record<string, any>} data
    * @returns {Promise<any>}
    */
-  public create(data: any): Promise<any> {
+  public create(data: Record<string, any>): Promise<any> {
     return this.handleRequest('POST', data);
   }
 
@@ -385,10 +408,10 @@ export class cartes {
    * Call PUT on the request
    *
    * @public
-   * @param {*} data
+   * @param {Record<string, any>} data
    * @returns {Promise<any>}
    */
-  public update(data: any): Promise<any> {
+  public update(data: Record<string, any>): Promise<any> {
     return this.handleRequest('PUT', data);
   }
 
@@ -400,5 +423,16 @@ export class cartes {
    */
   public delete(): Promise<any> {
     return this.handleRequest('DELETE');
+  }
+
+  /**
+   * Call DELETE on the request
+   *
+   * @public
+   * @returns {Promise<any>}
+   */
+  public search(query: string): Promise<any> {
+    this.#request_url += '/search';
+    return this.handleRequest('GET', { q: query });
   }
 }

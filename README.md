@@ -23,6 +23,7 @@ import cartes from "npm-cartes-io";
 
 // Maps
 cartes.maps().get();
+cartes.maps().search(query);
 
 const map = cartes.maps().create(data);
 
@@ -40,6 +41,7 @@ cartes.maps(map.uuid).markers(marker.id, marker.token).delete();
 
 // Categories
 cartes.categories().get();
+cartes.categories().search(query);
 
 // User
 cartes.setApiKey(apiKey);
