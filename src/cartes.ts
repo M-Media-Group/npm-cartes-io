@@ -146,23 +146,22 @@ export class cartes {
       let params = '';
 
       for (const key in this.#params) {
-        if (!this.#params[key]) {
+        const paramValue = this.#params[key];
+
+        if (!paramValue) {
           continue;
         }
+
         if (
-          typeof this.#params[key] !== 'string' &&
-          Array.isArray(this.#params[key]) &&
-          this.#params[key].length > 0
+          typeof paramValue !== 'string' &&
+          Array.isArray(paramValue) &&
+          paramValue.length > 0
         ) {
-          // @todo - forced the type here, not sure why TS doesnt see the check that its an array above
-          // Opened SO question: https://stackoverflow.com/questions/73303626/ts-type-check-error-on-dynamic-key-in-record?noredirect=1#comment129456147_73303626
-          // @ts-ignore
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          this.#params[key].forEach((element: string) => {
+          paramValue.forEach((element: string) => {
             params += '&' + key + '[]=' + element;
           });
         } else {
-          params += '&' + key + '=' + this.#params[key].toString();
+          params += '&' + key + '=' + paramValue.toString();
         }
       }
 
