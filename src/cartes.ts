@@ -48,9 +48,9 @@ export class cartes {
   /**
    * Description placeholder
    *
-   * @type {Record<string, any>}
+   * @type {Record<string, string | string[]>}
    */
-  #params: Record<string, string>;
+  #params: Record<string, string | string[]>;
 
   /**
    * Description placeholder
@@ -142,14 +142,30 @@ export class cartes {
    * @private
    */
   private attachParamsToUrl() {
-    // Attach any params to this.#request_url
     if (this.#params) {
       let params = '';
+
       for (const key in this.#params) {
-        if (this.#params[key]) {
+        if (!this.#params[key]) {
+          continue;
+        }
+        if (
+          typeof this.#params[key] !== 'string' &&
+          Array.isArray(this.#params[key]) &&
+          this.#params[key].length > 0
+        ) {
+          // @todo - forced the type here, not sure why TS doesnt see the check that its an array above
+          // Opened SO question: https://stackoverflow.com/questions/73303626/ts-type-check-error-on-dynamic-key-in-record?noredirect=1#comment129456147_73303626
+          // @ts-ignore
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+          this.#params[key].forEach((element: string) => {
+            params += '&' + key + '[]=' + element;
+          });
+        } else {
           params += '&' + key + '=' + this.#params[key].toString();
         }
       }
+
       this.#request_url += '?' + params.substring(1);
     }
   }
@@ -281,12 +297,36 @@ export class cartes {
    * Add a parameter to the request
    *
    * @public
-   * @param {string} key
+   * @param {string | string[]} key
    * @param {*} value
    * @returns {this}
    */
-  public addParam(key: string, value: string): this {
+  public addParam(key: string, value: string | string[]): this {
     this.#params[key] = value;
+    return this;
+  }
+
+  /**
+   * Add a with expansion to the request
+   *
+   * @public
+   * @param {string[]} values
+   * @returns {this}
+   */
+  public with(values: string[]): this {
+    this.addParam('with', values);
+    return this;
+  }
+
+  /**
+   * Add a withCount expansion to the request
+   *
+   * @public
+   * @param {string[]} values
+   * @returns {this}
+   */
+  public withCount(values: string[]): this {
+    this.addParam('withCount', values);
     return this;
   }
 
@@ -397,7 +437,7 @@ export class cartes {
    * Call POST on the request
    *
    * @public
-   * @param {Record<string, any>} data
+   * @param {null | Record<string, any>} data
    * @returns {Promise<any>}
    */
   public create(data: null | Record<string, any>): Promise<any> {

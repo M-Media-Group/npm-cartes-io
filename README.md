@@ -23,6 +23,8 @@ import cartes from "npm-cartes-io";
 
 // Maps
 cartes.maps().get();
+cartes.maps().with(['markers']).get();
+
 cartes.maps().search(query);
 
 const map = cartes.maps().create(data);
