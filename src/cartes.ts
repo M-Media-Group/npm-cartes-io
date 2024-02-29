@@ -450,7 +450,13 @@ export class cartes {
     return this.handleRequest('POST', data);
   }
 
-  /** */
+  /**
+   * Create from a file
+   *
+   * @public
+   * @param {File} file
+   * @returns {Promise<any>}
+   */
   public createFromFile(file: File): Promise<any> {
     // If the user is not authenticated, we throw an error
     if (!this.#api_key) {
