@@ -458,11 +458,6 @@ export class cartes {
    * @returns {Promise<any>}
    */
   public createFromFile(file: File): Promise<any> {
-    // If the user is not authenticated, we throw an error
-    if (!this.#api_key) {
-      throw new Error('You must be authenticated to create from a file.');
-    }
-
     // If the file is not a file, we throw an error
     if (!(file instanceof File)) {
       throw new Error('The file must be a file.');
@@ -471,7 +466,7 @@ export class cartes {
     const data = new FormData();
     data.append('file', file);
 
-    this.#request_url += '/related';
+    this.#request_url += '/file';
 
     return this.handleRequest(
       'POST',
