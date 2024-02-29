@@ -208,18 +208,25 @@ export class cartes {
     body = null as null | Record<string, any>,
     customHeaders = null as null | Headers
   ): Promise<any> {
+    const finalHeaders = customHeaders
+      ? new Headers({ ...this.getHeaders(), ...customHeaders })
+      : this.getHeaders();
+
     const data = {
       method: method.toUpperCase(),
       // If we have customHeaders, we need to merge them after the default headers so that they can override them
-      headers: customHeaders
-        ? new Headers({ ...this.getHeaders(), ...customHeaders })
-        : this.getHeaders(),
+      headers: finalHeaders,
       credentials: 'include',
     } as RequestInit;
 
     // If the method is not GET, we need to add the body
     if (data.method !== 'GET' && body) {
-      data.body = JSON.stringify(body);
+      // If the body is a FormData, we don't need to stringify it
+      if (body instanceof FormData) {
+        data.body = body;
+      } else {
+        data.body = JSON.stringify(body);
+      }
     } else if (body) {
       // set #params for GET requests for each body key
       for (const key in body) {
