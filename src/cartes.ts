@@ -99,9 +99,11 @@ export class cartes {
    * @returns {Headers}
    */
   private getHeaders(): Headers {
-    const headers = new Headers();
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+
     if (this.#api_key) {
       headers.append('Authorization', 'Bearer ' + this.#api_key);
     }
@@ -198,15 +200,20 @@ export class cartes {
    * @private
    * @param {string} [method="GET"]
    * @param {*} [body=null as any]
+   * @param {Headers} [customHeaders=null as Headers]
    * @returns {Promise<any>}
    */
   private handleRequest(
     method = 'GET',
-    body = null as null | Record<string, any>
+    body = null as null | Record<string, any>,
+    customHeaders = null as null | Headers
   ): Promise<any> {
     const data = {
       method: method.toUpperCase(),
-      headers: this.getHeaders(),
+      // If we have customHeaders, we need to merge them after the default headers so that they can override them
+      headers: customHeaders
+        ? new Headers({ ...this.getHeaders(), ...customHeaders })
+        : this.getHeaders(),
       credentials: 'include',
     } as RequestInit;
 
@@ -443,6 +450,33 @@ export class cartes {
     return this.handleRequest('POST', data);
   }
 
+  /** */
+  public createFromFile(file: File): Promise<any> {
+    // If the user is not authenticated, we throw an error
+    if (!this.#api_key) {
+      throw new Error('You must be authenticated to create from a file.');
+    }
+
+    // If the file is not a file, we throw an error
+    if (!(file instanceof File)) {
+      throw new Error('The file must be a file.');
+    }
+
+    const data = new FormData();
+    data.append('file', file);
+
+    this.#request_url += '/related';
+
+    return this.handleRequest(
+      'POST',
+      data,
+      new Headers({
+        // We send it as a form data
+        'Content-Type': 'multipart/form-data',
+      })
+    );
+  }
+
   /**
    * Call PUT on the request
    *
@@ -465,7 +499,7 @@ export class cartes {
   }
 
   /**
-   * Call DELETE on the request
+   * Call Search on the request
    *
    * @public
    * @returns {Promise<any>}

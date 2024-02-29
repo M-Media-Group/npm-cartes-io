@@ -29,6 +29,9 @@ cartes.maps().search(query);
 
 const map = cartes.maps().create(data);
 
+// You can create a map from a file (requires auth and permissions)
+const map = cartes.maps().createFromFile(file);
+
 cartes.maps(map.uuid).get();
 cartes.maps(map.uuid).related().get();
 cartes.maps(map.uuid, map.token).update(data);
@@ -39,14 +42,20 @@ cartes.maps(map.uuid).markers().get();
 
 const marker = cartes.maps(map.uuid).markers().create(data);
 
+// You can create markers from a file (requires auth and permissions)
+const marker = cartes.maps(map.uuid).markers().createFromFile(file);
+
+
 cartes.maps(map.uuid).markers(marker.id, marker.token).delete();
 
 // Categories
 cartes.categories().get();
 cartes.categories().search(query);
 
-// User
+// Authentication
 cartes.setApiKey(apiKey);
+
+// User
 cartes.me().get();
 cartes.me().update(data);
 
@@ -55,27 +64,6 @@ cartes.users().get();
 cartes.users(userId).get();
 
 ```
-
-<!-- ## API -->
-<!--
-### cartes(input, options?)
-
-#### input
-
-Type: `string`
-
-Lorem ipsum.
-
-#### options
-
-Type: `object`
-
-##### postfix
-
-Type: `string`
-Default: `rainbows`
-
-Lorem ipsum. -->
 
 [build-img]:https://github.com/ryansonshine/typescript-npm-package-template/actions/workflows/release.yml/badge.svg
 [build-url]:https://github.com/ryansonshine/typescript-npm-package-template/actions/workflows/release.yml
